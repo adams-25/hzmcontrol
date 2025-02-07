@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase JSON Example</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Firebase JSON Example</h1>
+    <input type="text" id="dataInput" placeholder="Enter data">
+    <button onclick="writeData()">Save Data</button>
+    <button onclick="readData()">Load Data</button>
+    <p id="output"></p>
+
+    <script>
+        // Paste your Firebase config here
+        const firebaseConfig = {
+            apiKey: "AIzaSyDMHgu416h1U6HFB2rKAgw2RxNyuWYdv8s",
+            authDomain: "xxtt-fc611.firebaseapp.com",
+            databaseURL: "https://xxtt-fc611-default-rtdb.firebaseio.com",
+            projectId: "xxtt-fc611",
+            storageBucket: "xxtt-fc611.firebasestorage.app",
+            messagingSenderId: "1032689470636",
+            appId:"1:1032689470636:web:a13bdad7af8217fc5f2309"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Write data to Firebase
+        function writeData() {
+            const data = document.getElementById('dataInput').value;
+            database.ref('testData').set({ value: data })
+                .then(() => alert('Data saved successfully!'))
+                .catch((error) => alert('Error saving data: ' + error));
+        }
+
+        // Read data from Firebase
+        function readData() {
+            database.ref('testData').once('value')
+                .then((snapshot) => {
+                    const data = snapshot.val();
+                    document.getElementById('output').innerText = data ? data.value : 'No data found!';
+                })
+                .catch((error) => alert('Error reading data: ' + error));
+        }
+    </script>
+</body>
+</html>
